@@ -6,4 +6,5 @@ RUN apt-get update && apt-get install -y passwd \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
-RUN pip install jupyterlab notebook jupyter-server ipykernel
+#RUN pip install jupyterlab notebook jupyter-server ipykernel
+RUN pip install dockerspawner

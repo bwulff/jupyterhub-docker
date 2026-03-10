@@ -5,6 +5,7 @@ c.JupyterHub.hub_ip = '0.0.0.0'
 c.JupyterHub.ip = '0.0.0.0'
 c.JupyterHub.port = 8000
 c.JupyterHub.bind_url = 'http://localhost:8000'
+c.JupyterHub.hub_connect_ip = 'jupyterhub' 
 
 # Authenticator configuration
 c.JupyterHub.authenticator_class = 'pam'
@@ -21,3 +22,12 @@ c.JupyterHub.allow_named_servers = False
 
 # Spawner configuration
 c.Spawner.default_url = '/lab'
+
+from dockerspawner import DockerSpawner
+c.JupyterHub.spawner_class = DockerSpawner
+c.DockerSpawner.image = 'jupyter/scipy-notebook:latest'
+c.DockerSpawner.container_name_template = 'jupyter-{username}'
+c.DockerSpawner.volumes = {'jupyterhub-user-{username}': '/home/jovyan/work'}
+c.DockerSpawner.network_name = 'jupyterhub-network'
+c.DockerSpawner.use_internal_ip = True
+

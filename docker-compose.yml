@@ -7,10 +7,13 @@ services:
     container_name: jupyterhub
     ports:
       - "8000:8000"
+    networks:
+      - jupyterhub-network
     volumes:
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
       - ./create_users.sh:/srv/jupyterhub/create_users.sh
       - jupyterhub-data:/srv/jupyterhub/data
+      - /var/run/docker.sock:/var/run/docker.sock
     command: >
       bash -c "/srv/jupyterhub/create_users.sh && jupyterhub -f /srv/jupyterhub/jupyterhub_config.py"
     environment:
@@ -19,3 +22,7 @@ services:
 
 volumes:
   jupyterhub-data:
+
+networks:
+  jupyterhub-network:
+    name: jupyterhub-network
