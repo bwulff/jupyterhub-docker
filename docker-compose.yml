@@ -1,0 +1,21 @@
+services:
+  jupyterhub:
+    image: jupyterhub/jupyterhub:latest
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: jupyterhub
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - ./create_users.sh:/srv/jupyterhub/create_users.sh
+      - jupyterhub-data:/srv/jupyterhub/data
+    command: >
+      bash -c "/srv/jupyterhub/create_users.sh && jupyterhub -f /srv/jupyterhub/jupyterhub_config.py"
+    environment:
+      - JUPYTERHUB_CRYPT_KEY=${JUPYTERHUB_CRYPT_KEY:-$(openssl rand -hex 32)}
+    restart: unless-stopped
+
+volumes:
+  jupyterhub-data:
