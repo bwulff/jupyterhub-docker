@@ -1,4 +1,5 @@
 # jupyterhub_config.py
+from os import getenv
 
 # Network configuration
 c.JupyterHub.hub_ip = '0.0.0.0'
@@ -25,9 +26,8 @@ c.Spawner.default_url = '/lab'
 
 from dockerspawner import DockerSpawner
 c.JupyterHub.spawner_class = DockerSpawner
-c.DockerSpawner.image = 'jupyter/scipy-notebook:latest'
+c.DockerSpawner.image = getenv('JUPYTERHUB_USER_IMAGE','jupyter/scipy-notebook:latest')
 c.DockerSpawner.container_name_template = 'jupyter-{username}'
 c.DockerSpawner.volumes = {'jupyterhub-user-{username}': '/home/jovyan/work'}
 c.DockerSpawner.network_name = 'jupyterhub-network'
 c.DockerSpawner.use_internal_ip = True
-
