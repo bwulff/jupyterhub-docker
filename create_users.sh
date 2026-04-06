@@ -7,7 +7,7 @@ if ! id -u admin > /dev/null 2>&1; then
     echo "Admin user created"
 fi
 
-NUM_USERS=5  
+NUM_USERS=20  
 for i in $(seq 1 "$NUM_USERS"); do
     USERNAME="group${i}"
     #PASSWORD=$(openssl rand -base64 16 | tr -dc 'a-zA-Z0-9' | head -c 5)
